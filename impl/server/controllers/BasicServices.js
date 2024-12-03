@@ -2,6 +2,7 @@
 'use strict';
 
 var BasicServices = require('onf-core-model-ap-bs/basicServices/BasicServicesService');
+var BasicServiceCustom = require('../service/BasicServicesService');
 var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 var RestResponseHeader = require('onf-core-model-ap/applicationPattern/rest/server/ResponseHeader');
 var RestResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
@@ -14,7 +15,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument;
-  await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
+  await BasicServiceCustom.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -264,7 +265,7 @@ module.exports.registerYourself = async function registerYourself(req, res, next
     traceIndicator = req.headers["trace-indicator"];
     customerJourney = req.headers["customer-journey"];
   }
-  await BasicServices.registerYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
+  await BasicServiceCustom.registerYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
